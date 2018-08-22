@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+    <androidx.drawerlayout.widget.DrawerLayout
+        android:id="@+id/draw_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <RelativeLayout android:id="@+id/main_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageView android:id="@+id/bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.8"
+                android:scaleType="centerCrop"/>
+
+            <com.frank.myclock.view.MoveLayout
+                android:id="@+id/move_layout"
+                android:layout_centerInParent="true"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:paddingBottom="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout android:id="@+id/h_m_wrap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <com.frank.myclock.view.MyTextView
+                        android:id="@+id/h_tv"
+                        style="@style/TextViewLarge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00" />
+                    <com.frank.myclock.view.MyTextView
+                        style="@style/TextViewLarge"
+                        android:id="@+id/colon_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="120sp"
+                        android:layout_gravity="center"
+                        android:text=":"/>
+                    <com.frank.myclock.view.MyTextView
+                        android:id="@+id/m_tv"
+                        style="@style/TextViewLarge"
+                        android:layout_below="@id/detailtime_layout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="00"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/h_m_wrap"
+                    android:translationY="-20dp"
+                    android:layout_centerHorizontal="true"
+                    android:orientation="horizontal">
+                    <com.frank.myclock.view.MyTextView
+                        android:id="@+id/ymd_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="2018年8月12日"
+                        style="@style/TextViewSmall"/>
+                    <com.frank.myclock.view.MyTextView
+                        android:id="@+id/ampm_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="AM"
+                        style="@style/TextViewSmall"/>
+                    <com.frank.myclock.view.MyTextView
+                        android:id="@+id/week_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="星期五"
+                        style="@style/TextViewSmall"/>
+                    <com.frank.myclock.view.MyTextView
+                        android:id="@+id/s_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="50s"
+                        style="@style/TextViewSmall"/>
+                </LinearLayout>
+
+            </com.frank.myclock.view.MoveLayout>
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:background="#ccc"
+            android:layout_gravity="left">
+
+            <include layout="@layout/panel_settings"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="280dp"
+            android:layout_height="match_parent"
+            android:background="#ccc"
+            android:layout_gravity="right">
+
+            <include layout="@layout/panel_style_settings"/>
+
+        </LinearLayout>
+
+    </androidx.drawerlayout.widget.DrawerLayout>
+
+</RelativeLayout>
