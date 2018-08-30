@@ -10,8 +10,18 @@ import com.frank.myclock.time.TimeThread
 import kotlinx.android.synthetic.main.activity_main.*
 import android.content.pm.PackageManager
 import android.content.ComponentName
-import android.graphics.Typeface
+import android.content.Context
+import android.graphics.Color
+import android.hardware.SensorManager
+import android.view.WindowManager
+import com.frank.myclock.R
 import com.frank.myclock.activity.LaunchActivity
+import com.frank.myclock.device.ActivityBrightnessManager
+import com.frank.myclock.device.MySensor
+import com.frank.myclock.util.APKVersionCodeUtils
+import com.frank.myclock.view.MyDialog
+import com.frank.myclock.view.TextSizeSwitch
+import kotlinx.android.synthetic.main.panel_style_settings.*
 
 
 /**
@@ -63,10 +73,71 @@ fun Activity.timeRunning(){
     )
 }
 
+fun Activity.anyInit(data: Data){
+    fun setGradualChange(isGradualChange:Boolean){
+        h_tv.setGradualChange(isGradualChange)
+        m_tv.setGradualChange(isGradualChange)
+        s_tv.setGradualChange(isGradualChange)
+        ymd_tv.setGradualChange(isGradualChange)
+        ampm_tv.setGradualChange(isGradualChange)
+        week_tv.setGradualChange(isGradualChange)
+        colon_tv.setGradualChange(isGradualChange)
+    }
+
+    h_tv.setColor(data.getTextColor())
+    m_tv.setColor(data.getTextColor())
+    s_tv.setColor(data.getTextColor())
+    ymd_tv.setColor(data.getTextColor())
+    ampm_tv.setColor(data.getTextColor())
+    week_tv.setColor(data.getTextColor())
+    colon_tv.setColor(data.getTextColor())
+
+    MySensor(getSystemService(Context.SENSOR_SERVICE) as SensorManager?).setOnLightChanged(object : MySensor.OnLightChanged{
+        override fun onHeight() {
+            if (data.isBrightness()) {
+                ActivityBrightnessManager.changeAppBrightness(applicationContext, -1)
+            }
+        }
+        override fun onLow() {
+            if (data.isBrightness()){
+                ActivityBrightnessManager.changeAppBrightness(applicationContext, 5);
+            }
+        }
+    })
+
+    h_tv.setVisibility(data.isShowHour())
+    h_tv.text = if (!data.is12HourClock()){
+        Time.hour()
+    }else{
+        Time.hourOfDay()
+    }
+
+    m_tv.setVisibility(data.isShowMinute())
+    m_tv.text = Time.minute()
+
+    colon_tv.setVisibility(data.isShowHour() and data.isShowMinute())
+
+    s_tv.setVisibility(data.isShowSecond())
+    s_tv.text = Time.second()
+
+    ampm_tv.setVisibility(data.isShowAMPM())
+    ampm_tv.text = Time.halfDay()
+
+    week_tv.setVisibility(data.isShowWeek())
+    week_tv.text = Time.week()
+
+    ymd_tv.setVisibility(data.isShowYMD())
+    ymd_tv.setVisibility(data.isShowYMD())
+
+    setGradualChange(data.isGradualChange())
+    setTextSize2(data)
+
+}
+
 /**
  * 开始各种初始化和设置
  */
-fun Activity.actionSettings(data: Data){
+fun Activity.setListener(data: Data){
 //    val typeface = Typeface.createFromAsset(assets,"font/ds_digi.ttf")
     setHour(data)
     setMinute(data)
@@ -75,12 +146,75 @@ fun Activity.actionSettings(data: Data){
     setWeek(data)
     setYMD(data)
     setTextStyle(data)
-    setGradualChange(data)
+    setStartMove(data)
     setOrientation(data)
     setLauncher(data)
     setBackgroundImg(data)
     setFlashingColon(data)
-    setLock(data)
+//    setLock(data)
+    setBrightness(data)
+    pay()
+    setTextColor(data)
+    setTextSize(data)
+    setNavigationBarColor()
+    setKeepScreenOn(data)
+}
+
+fun Activity.setTextSize2(data: Data){
+    fun bigSize(){
+        h_tv.toBigSize(resources.getDimension(R.dimen.large))
+        m_tv.toBigSize(resources.getDimension(R.dimen.large))
+        colon_tv.toBigSize(resources.getDimension(R.dimen.colon))
+        ymd_tv.toBigSize(resources.getDimension(R.dimen.small))
+        week_tv.toBigSize(resources.getDimension(R.dimen.small))
+        ampm_tv.toBigSize(resources.getDimension(R.dimen.small))
+        s_tv.toBigSize(resources.getDimension(R.dimen.small))
+    }
+    fun smallSize(){
+        h_tv.toSmallSize(    resources.getDimension(R.dimen.large))
+        m_tv.toSmallSize(    resources.getDimension(R.dimen.large))
+        colon_tv.toSmallSize(resources.getDimension(R.dimen.colon))
+        ymd_tv.toSmallSize(  resources.getDimension(R.dimen.small))
+        week_tv.toSmallSize( resources.getDimension(R.dimen.small))
+        ampm_tv.toSmallSize( resources.getDimension(R.dimen.small))
+        s_tv.toSmallSize(    resources.getDimension(R.dimen.small))
+    }
+    fun autoSize(){
+        h_tv.toAutoSize(resources.getDimension(R.dimen.large))
+        m_tv.toAutoSize(resources.getDimension(R.dimen.large))
+        colon_tv.toAutoSize(resources.getDimension(R.dimen.colon))
+        ymd_tv.toAutoSize(resources.getDimension(R.dimen.small))
+        week_tv.toAutoSize(resources.getDimension(R.dimen.small))
+        ampm_tv.toAutoSize(resources.getDimension(R.dimen.small))
+        s_tv.toAutoSize(resources.getDimension(R.dimen.small))
+    }
+
+    when(data.getTextSize()){
+        TextSizeSwitch.STATE.AUTO.toString() ->{
+            autoSize()
+        }
+        TextSizeSwitch.STATE.BIG.toString() -> {
+            bigSize()
+        }
+        TextSizeSwitch.STATE.SMALL.toString() -> {
+            smallSize()
+        }
+    }
+
+}
+
+fun Activity.showWelcome(data: Data){
+    if (data.getVersionCode() != APKVersionCodeUtils.getVersionCode(this)) {
+        data.setVersionCode(APKVersionCodeUtils.getVersionCode(this))
+        MyDialog.showWelcome(this)
+    }
+}
+
+fun Activity.setNavigationBarColor(){
+    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        getWindow().setNavigationBarColor(Color.BLACK);
+    }
 }
 
 /**

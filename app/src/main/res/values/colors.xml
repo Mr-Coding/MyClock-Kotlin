@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="black">#000</color>
+    <color name="grag2">#112233</color>
+    <color name="gray">#a9a9a9</color>
     <color name="white">#fff</color>
     <color name="panelColor">#112233</color>
+
+    <color name="red">   #C1393D</color>
+    <color name="orange">#D79946</color>
+    <color name="yellow">#D5CC49</color>
+    <color name="green"> #5EB950</color>
+    <color name="blue">  #496CC0</color>
+    <color name="purple">#A443A2</color>
+
 </resources>

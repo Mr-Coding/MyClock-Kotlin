@@ -1,21 +1,32 @@
 package com.frank.myclock.extend
 
+import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
+import android.content.Context.SENSOR_SERVICE
 import com.frank.myclock.Data
 import com.frank.myclock.time.Time
 import com.frank.myclock.view.MySwitch
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.panel_settings.*
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.hardware.SensorManager
 import android.os.Build
 import android.util.Log
+import android.view.WindowManager
 import android.widget.ImageView
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
 import com.frank.myclock.MyService
 import com.frank.myclock.R
-import com.frank.myclock.activity.LockActivity
-import kotlinx.android.synthetic.main.activity_lcok.*
+import com.frank.myclock.device.ActivityBrightnessManager.changeAppBrightness
+import com.frank.myclock.device.MySensor
+import com.frank.myclock.util.Pay
+import com.frank.myclock.view.MyDialog
 import kotlinx.android.synthetic.main.panel_style_settings.*
+import com.divyanshu.colorseekbar.*
+import com.frank.myclock.view.TextSizeSwitch
 
 
 fun Activity.setHour(data: Data) {
@@ -24,9 +35,16 @@ fun Activity.setHour(data: Data) {
     }else{
         Time.hourOfDay()
     }
+    h_tv.setVisibility(data.isShowHour())
+    colon_tv.setVisibility(data.isShowHour() and data.isShowMinute())
+    showhour_btn.isChecked = data.isShowHour()
+    showhour_btn.setOnCheckedChangeListener{ view,isCecked ->
+        h_tv.setVisibility(isCecked)
+        data.setShowHour(isCecked)
+        colon_tv.setVisibility(data.isShowHour() and data.isShowMinute())
+    }
     hourofday_chk.isChecked = data.is12HourClock()
-    hourofday_chk.setOnCheckedChangeListener {
-        view, isChecked ->
+    hourofday_chk.setOnCheckedChangeListener { view, isChecked ->
         data.set12HourClock(isChecked)
         h_tv.text = if (!isChecked){
             Time.hour()
@@ -40,13 +58,13 @@ fun Activity.setHour(data: Data) {
 fun Activity.setMinute(data: Data) {
     m_tv.text = Time.minute()
     m_tv.setVisibility(data.isShowMinute())
-    colon_tv.setVisibility(data.isShowMinute())
+    colon_tv.setVisibility(data.isShowHour() and data.isShowMinute())
     showminute_btn.isChecked = data.isShowMinute()
     showminute_btn.setOnCheckedChangeListener {
         view, isChecked ->
         data.setShowMinute(isChecked)
         m_tv.setVisibility(isChecked)
-        colon_tv.setVisibility(data.isShowMinute())
+        colon_tv.setVisibility(data.isShowHour() and data.isShowMinute())
     }
 }
 
@@ -97,15 +115,13 @@ fun Activity.setYMD(data: Data) {
     }
 
     showymd_chk.isChecked = data.isShowYMD()
-    showymd_chk.setOnCheckedChangeListener {
-        view, isChecked ->
+    showymd_chk.setOnCheckedChangeListener { view, isChecked ->
         data.setShowYMD(isChecked)
         ymd_tv.setVisibility(isChecked)
     }
 
     showlunar_chk.isChecked = data.isShowLunar()
-    showlunar_chk.setOnCheckedChangeListener {
-        view, isChecked ->
+    showlunar_chk.setOnCheckedChangeListener { view, isChecked ->
         data.setShowLunar(isChecked)
         ymd_tv.text = if (!isChecked){
             Time.YMD()
@@ -137,7 +153,7 @@ fun Activity.setTextStyle(data: Data){
 }
 
 //文字移动设置
-fun Activity.setGradualChange(data: Data){
+fun Activity.setStartMove(data: Data){
     startmove_btn.isChecked = data.isStartMove()
     startmove_btn.setOnCheckedChangeListener{
         _,isChecked ->
@@ -189,12 +205,29 @@ fun Activity.setLauncher(data: Data){
 fun Activity.setBackgroundImg(data: Data){
     Glide.with(this).load(data.getImg()).into(findViewById(R.id.bg))
     Glide.with(this).load(data.getImg()).into(findViewById(R.id.showbg_iv))
-    addbg_btn.setOnClickListener {
-        val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
-        startActivityForResult(intent,1)
+
+    addbg_btn.setOnClickListener { it ->
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            if (ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                MyDialog.showPermission(this) {
+                    ActivityCompat.requestPermissions(
+                            this, Array<String>(1) { READ_EXTERNAL_STORAGE }, 1
+                    )
+                }
+            } else {
+                val intent = Intent(Intent.ACTION_GET_CONTENT)
+                intent.type = "image/*"
+                intent.addCategory(Intent.CATEGORY_OPENABLE)
+                startActivityForResult(intent, 1)
+            }
+        }else {
+            val intent = Intent(Intent.ACTION_GET_CONTENT)
+            intent.type = "image/*"
+            intent.addCategory(Intent.CATEGORY_OPENABLE)
+            startActivityForResult(intent, 1)
+        }
     }
+
     clearbg_btn.setOnClickListener{
         data.setImg("")
         Glide.with(this).clear(findViewById<ImageView>(R.id.bg))
@@ -235,4 +268,132 @@ fun Activity.setLock(data: Data) {
         isLock(isChecked)
     }
 
+}
+
+fun Activity.pay(){
+    ali_pay_iv.setOnClickListener {
+        Pay.aLi(this,"FKX07485N6VROUOMUYEI40")
+    }
+    wx_pay_iv.setOnClickListener {
+        MyDialog.showWXPay(this)
+    }
+}
+
+fun Activity.setTextColor(data: Data){
+
+    fun setColor(color:Int){
+        h_tv.setColor(color)
+        m_tv.setColor(color)
+        s_tv.setColor(color)
+        ymd_tv.setColor(color)
+        ampm_tv.setColor(color)
+        week_tv.setColor(color)
+        colon_tv.setColor(color)
+    }
+
+    setColor(data.getTextColor())
+
+    color_seek_bar.setOnColorChangeListener(object :ColorSeekBar.OnColorChangeListener{
+        override fun onColorChangeListener(color: Int) {
+            setColor(color)
+            data.setTextColor(color)
+        }
+    })
+}
+
+fun Activity.setTextSize(data: Data){
+    fun bigSize(){
+        h_tv.toBigSize(resources.getDimension(R.dimen.large))
+        m_tv.toBigSize(resources.getDimension(R.dimen.large))
+        colon_tv.toBigSize(resources.getDimension(R.dimen.colon))
+        ymd_tv.toBigSize(resources.getDimension(R.dimen.small))
+        week_tv.toBigSize(resources.getDimension(R.dimen.small))
+        ampm_tv.toBigSize(resources.getDimension(R.dimen.small))
+        s_tv.toBigSize(resources.getDimension(R.dimen.small))
+    }
+    fun smallSize(){
+        h_tv.toSmallSize(resources.getDimension(R.dimen.large))
+        m_tv.toSmallSize(resources.getDimension(R.dimen.large))
+        colon_tv.toSmallSize(resources.getDimension(R.dimen.colon))
+        ymd_tv.toSmallSize(resources.getDimension(R.dimen.small))
+        week_tv.toSmallSize(resources.getDimension(R.dimen.small))
+        ampm_tv.toSmallSize(resources.getDimension(R.dimen.small))
+        s_tv.toSmallSize(resources.getDimension(R.dimen.small))
+    }
+    fun autoSize(){
+        h_tv.toAutoSize(resources.getDimension(R.dimen.large))
+        m_tv.toAutoSize(resources.getDimension(R.dimen.large))
+        colon_tv.toAutoSize(resources.getDimension(R.dimen.colon))
+        ymd_tv.toAutoSize(resources.getDimension(R.dimen.small))
+        week_tv.toAutoSize(resources.getDimension(R.dimen.small))
+        ampm_tv.toAutoSize(resources.getDimension(R.dimen.small))
+        s_tv.toAutoSize(resources.getDimension(R.dimen.small))
+    }
+
+    when(data.getTextSize()){
+        TextSizeSwitch.STATE.AUTO.toString() -> {
+            textsize_switch.setChosen(TextSizeSwitch.BTN.AUTO_BTN)
+            autoSize()
+        }
+        TextSizeSwitch.STATE.BIG.toString() -> {
+            textsize_switch.setChosen(TextSizeSwitch.BTN.BIG_BTN)
+            bigSize()
+        }
+        TextSizeSwitch.STATE.SMALL.toString() -> {
+            textsize_switch.setChosen(TextSizeSwitch.BTN.SMALL_BTN)
+            smallSize()
+        }
+    }
+
+    textsize_switch.onChosen{
+        data.setTextSize(it)
+        when(it){
+            TextSizeSwitch.STATE.AUTO.toString() -> {
+                autoSize()
+            }
+            TextSizeSwitch.STATE.BIG.toString() -> {
+                bigSize()
+            }
+            TextSizeSwitch.STATE.SMALL.toString() -> {
+                smallSize()
+            }
+        }
+    }
+}
+
+fun Activity.setBrightness(data: Data){
+    val activity = this
+
+    fun setBrightness() {
+        MySensor(getSystemService(SENSOR_SERVICE) as SensorManager?).setOnLightChanged(object : MySensor.OnLightChanged {
+            override fun onHeight() {
+                if (data.isBrightness()) {
+                    changeAppBrightness(activity, -1)
+                }
+            }
+
+            override fun onLow() {
+                if (data.isBrightness()) {
+                    changeAppBrightness(activity, 5);
+                }else{
+                    changeAppBrightness(activity, -1);
+                }
+            }
+        })
+    }
+
+    setBrightness()
+    brightness_chk.isChecked = data.isBrightness()
+    brightness_chk.setOnCheckedChangeListener { view, isChecked ->
+        setBrightness()
+        data.setBrightness(isChecked)
+    }
+}
+
+fun Activity.setKeepScreenOn(data: Data){
+    keepscreenon_chk.isChecked = data.isKeepScreenOn()
+    keepscreenon_chk.setOnCheckedChangeListener { view, isChecked ->
+        data.setKeepScreenO(isChecked)
+        recreate()
+    }
 }

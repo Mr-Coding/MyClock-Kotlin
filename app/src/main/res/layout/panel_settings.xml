@@ -20,7 +20,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
-                android:layout_marginBottom="15dp"
+                android:layout_marginBottom="10dp"
                 android:text="内容"
                 android:textColor="#b4bee7"
                 android:textSize="15sp"/>
@@ -37,6 +37,25 @@
                     android:textSize="20sp"/>
                 <com.suke.widget.SwitchButton
                     android:id="@+id/showsecond_btn"
+                    android:layout_width="55dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="6dp"/>
+            </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:text="显示小时"
+                    android:textColor="#fff"
+                    android:textSize="20sp"/>
+                <com.suke.widget.SwitchButton
+                    android:id="@+id/showhour_btn"
                     android:layout_width="55dp"
                     android:layout_height="30dp"
                     android:layout_centerVertical="true"
@@ -315,7 +334,27 @@
                     android:layout_alignParentRight="true"
                     android:layout_marginRight="6dp"/>
             </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:text="保持亮屏"
+                    android:textColor="#fff"
+                    android:textSize="20sp"/>
+                <com.suke.widget.SwitchButton
+                    android:id="@+id/keepscreenon_chk"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="6dp"/>
+            </RelativeLayout>
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
@@ -326,6 +365,7 @@
                 android:textColor="#b4bee7"
                 android:textSize="15sp"/>
             <RelativeLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="45dp">
                 <LinearLayout
@@ -391,25 +431,33 @@
                 android:text="邮箱号  frank.code@outlook.com"
                 android:textColor="#fff"
                 android:textSize="15sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="有打赏，有动力！ (ง •_•)ง "
+                android:textColor="#fff"
+                android:textSize="15sp"/>
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginBottom="15dp"
                 android:orientation="horizontal">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="10dp"
-                    android:text="请开发者吃包辣条吧！ (๑•́ ₃•̀๑) "
-                    android:textColor="#fff"
-                    android:textSize="15sp"/>
+
                 <ImageView
                     android:id="@+id/wx_pay_iv"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:src="@drawable/icon_weixin"
-                    android:layout_marginLeft="5dp"
-                    />
+                    android:layout_marginLeft="5dp" />
+                <ImageView
+                    android:id="@+id/ali_pay_iv"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:src="@drawable/ic_alipay"
+                    android:layout_marginLeft="8dp" />
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

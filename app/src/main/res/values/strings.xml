@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">时钟</string>
+
+    <string name="red">#C1393D</string>
+    <string name="orange">#D79946</string>
+    <string name="yellow">#D5CC49</string>
+    <string name="green">#5EB950</string>
+    <string name="blue">#496CC0</string>
+    <string name="purple">#A443A2</string>
+    <string name="white">#ffffff</string>
+    <string name="gray">#a9a9a9</string>
+    <string name="black">#000000</string>
 </resources>

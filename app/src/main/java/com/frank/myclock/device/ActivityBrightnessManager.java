@@ -16,7 +16,7 @@ public class ActivityBrightnessManager {
             lp.screenBrightness = WindowManager.LayoutParams.BRIGHTNESS_OVERRIDE_NONE;
         } else {
             lp.screenBrightness = (brightness <= 0 ? 1 : brightness) / 255f;
-            Log.i("MainActivity","Screen Brightness:"+lp.screenBrightness);
+            Log.i("MainActivity","Screen setBrightness:"+lp.screenBrightness);
         }
         window.setAttributes(lp);
     }

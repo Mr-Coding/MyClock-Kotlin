@@ -1,24 +1,20 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="AppTheme" parent="android:Theme.Light.NoTitleBar"/>
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar"/>
 
     <style name="TextViewLarge">
         <item name="android:textStyle">bold</item>
-        <item name="android:textSize">150sp</item>
+        <item name="android:textSize">@dimen/large</item>
         <item name="android:textColor">@color/white</item>
         <item name="android:includeFontPadding">false</item>
         <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:background">@drawable/bg_tv</item>
+        <!--<item name="android:lineSpacingExtra">-30sp</item>-->
         <!--<item name="android:layout_marginTop">-30dp</item>-->
         <!--<item name="android:layout_marginBottom">-30dp</item>-->
     </style>
     <style name="TextViewSmall">
-        <item name="android:textSize">23sp</item>
+        <item name="android:textSize">@dimen/small</item>
         <item name="android:textColor">@color/white</item>
     </style>
 
-    <style name="TestShadow">
-        <item name="android:shadowColor">#333</item>
-        <item name="android:shadowRadius">50</item>
-        <item name="android:shadowDx">0</item>
-        <item name="android:shadowDy">0</item>
-    </style>
 </resources>

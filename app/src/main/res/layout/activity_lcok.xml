@@ -3,7 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.frank.myclock.view.SwipeLayout
+    <com.frank.myclock.view.MyRelativeLayout
         android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -16,6 +16,6 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:src="@drawable/icon_up" />
-    </com.frank.myclock.view.SwipeLayout>
+    </com.frank.myclock.view.MyRelativeLayout>
 
 </LinearLayout>
