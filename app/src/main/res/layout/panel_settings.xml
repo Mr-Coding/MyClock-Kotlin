@@ -428,6 +428,14 @@
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
+                android:text="ICON  白炽的星光"
+                android:textColor="#fff"
+                android:textSize="15sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
                 android:text="邮箱号  frank.code@outlook.com"
                 android:textColor="#fff"
                 android:textSize="15sp"/>

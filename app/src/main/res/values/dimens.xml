@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="large">150dp</dimen>
-    <dimen name="small">23sp</dimen>
-    <dimen name="colon">120sp</dimen>
+    <dimen name="large_1">150dp</dimen>
+    <dimen name="small_1">23sp</dimen>
+    <dimen name="colon_1">120sp</dimen>
+
+    <dimen name="large_2">100sp</dimen>
+    <dimen name="small_2">39sp</dimen>
 </resources>

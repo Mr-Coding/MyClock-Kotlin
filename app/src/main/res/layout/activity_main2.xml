@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black">
+
+
+        <RelativeLayout android:id="@+id/main_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <ImageView android:id="@+id/bg"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:alpha="0.8"
+                android:scaleType="centerCrop"/>
+
+            <com.frank.myclock.view.MoveLayout
+                android:id="@+id/move_layout"
+                android:layout_centerInParent="true"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+                        <com.frank.myclock.view.MyTextView
+                            android:id="@+id/ampm_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="8dp"
+                            android:text="AM"
+                            android:textColor="#fff"
+                            android:textSize="@dimen/small_2"/>
+                        <com.frank.myclock.view.MyTextView
+                            android:id="@+id/week_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="8dp"
+                            android:text="星期天"
+                            android:textColor="#fff"
+                            android:textSize="@dimen/small_2"/>
+                        <com.frank.myclock.view.MyTextView
+                            android:id="@+id/s_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="50s"
+                            android:textColor="#fff"
+                            android:textSize="@dimen/small_2"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content">
+                        <com.frank.myclock.view.MyTextView
+                            android:id="@+id/h_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/large_2"
+                            android:textColor="#fff"
+                            android:textStyle="bold"
+                            android:background="@drawable/bg_tv"
+                            android:text="00" />
+                        <com.frank.myclock.view.MyTextView
+                            android:id="@+id/colon_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/large_2"
+                            android:textColor="#fff"
+                            android:textStyle="bold"
+                            android:background="@drawable/bg_tv"
+                            android:text=":"/>
+                        <com.frank.myclock.view.MyTextView
+                            android:id="@+id/m_tv"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textSize="@dimen/large_2"
+                            android:textColor="#fff"
+                            android:textStyle="bold"
+                            android:background="@drawable/bg_tv"
+                            android:text="00"/>
+                    </LinearLayout>
+
+                    <com.frank.myclock.view.MyTextView
+                        android:id="@+id/ymd_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="2018年08月30日"
+                        android:textColor="#fff"
+                        android:textSize="@dimen/small_2"/>
+
+                </LinearLayout>
+
+            </com.frank.myclock.view.MoveLayout>
+        </RelativeLayout>
+
+</RelativeLayout>

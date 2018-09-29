@@ -13,15 +13,17 @@ import android.content.ComponentName
 import android.content.Context
 import android.graphics.Color
 import android.hardware.SensorManager
+import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
+import android.view.View.SYSTEM_UI_FLAG_LOW_PROFILE
 import android.view.WindowManager
 import com.frank.myclock.R
 import com.frank.myclock.activity.LaunchActivity
 import com.frank.myclock.device.ActivityBrightnessManager
 import com.frank.myclock.device.MySensor
 import com.frank.myclock.util.APKVersionCodeUtils
+import com.frank.myclock.view.ChangeLayoutSwitch
 import com.frank.myclock.view.MyDialog
 import com.frank.myclock.view.TextSizeSwitch
-import kotlinx.android.synthetic.main.panel_style_settings.*
 
 
 /**
@@ -161,46 +163,66 @@ fun Activity.setListener(data: Data){
 }
 
 fun Activity.setTextSize2(data: Data){
-    fun bigSize(){
-        h_tv.toBigSize(resources.getDimension(R.dimen.large))
-        m_tv.toBigSize(resources.getDimension(R.dimen.large))
-        colon_tv.toBigSize(resources.getDimension(R.dimen.colon))
-        ymd_tv.toBigSize(resources.getDimension(R.dimen.small))
-        week_tv.toBigSize(resources.getDimension(R.dimen.small))
-        ampm_tv.toBigSize(resources.getDimension(R.dimen.small))
-        s_tv.toBigSize(resources.getDimension(R.dimen.small))
+    changeLayout(data)
+}
+// 更换布局和字体大小
+fun Activity.changeLayout(data: Data){
+    when(data.getLayout()){
+        ChangeLayoutSwitch.STATE.A.toString() -> {
+            when(data.getTextSize()){
+                TextSizeSwitch.STATE.AUTO.toString() ->{
+                    autoAllSize(R.dimen.large_1,R.dimen.small_1)
+                }
+                TextSizeSwitch.STATE.BIG.toString() -> {
+                    bigAllSize(R.dimen.large_1,R.dimen.small_1)
+                }
+                TextSizeSwitch.STATE.SMALL.toString() -> {
+                    smallAllSize(R.dimen.large_1,R.dimen.small_1)
+                }
+            }
+        }
+        ChangeLayoutSwitch.STATE.B.toString() -> {
+            when(data.getTextSize()){
+                TextSizeSwitch.STATE.AUTO.toString() ->{
+                    autoAllSize(R.dimen.large_2,R.dimen.small_2)
+                }
+                TextSizeSwitch.STATE.BIG.toString() -> {
+                    bigAllSize(R.dimen.large_2,R.dimen.small_2)
+                }
+                TextSizeSwitch.STATE.SMALL.toString() -> {
+                    smallAllSize(R.dimen.large_2,R.dimen.small_2)
+                }
+            }
+        }
     }
-    fun smallSize(){
-        h_tv.toSmallSize(    resources.getDimension(R.dimen.large))
-        m_tv.toSmallSize(    resources.getDimension(R.dimen.large))
-        colon_tv.toSmallSize(resources.getDimension(R.dimen.colon))
-        ymd_tv.toSmallSize(  resources.getDimension(R.dimen.small))
-        week_tv.toSmallSize( resources.getDimension(R.dimen.small))
-        ampm_tv.toSmallSize( resources.getDimension(R.dimen.small))
-        s_tv.toSmallSize(    resources.getDimension(R.dimen.small))
-    }
-    fun autoSize(){
-        h_tv.toAutoSize(resources.getDimension(R.dimen.large))
-        m_tv.toAutoSize(resources.getDimension(R.dimen.large))
-        colon_tv.toAutoSize(resources.getDimension(R.dimen.colon))
-        ymd_tv.toAutoSize(resources.getDimension(R.dimen.small))
-        week_tv.toAutoSize(resources.getDimension(R.dimen.small))
-        ampm_tv.toAutoSize(resources.getDimension(R.dimen.small))
-        s_tv.toAutoSize(resources.getDimension(R.dimen.small))
-    }
+}
 
-    when(data.getTextSize()){
-        TextSizeSwitch.STATE.AUTO.toString() ->{
-            autoSize()
-        }
-        TextSizeSwitch.STATE.BIG.toString() -> {
-            bigSize()
-        }
-        TextSizeSwitch.STATE.SMALL.toString() -> {
-            smallSize()
-        }
-    }
-
+fun Activity.bigAllSize(largeResId:Int,smallResId:Int){
+    h_tv.toBigSize(resources.getDimension(largeResId))
+    m_tv.toBigSize(resources.getDimension(largeResId))
+    colon_tv.toBigSize(resources.getDimension(largeResId))
+    ymd_tv.toBigSize(resources.getDimension(smallResId))
+    week_tv.toBigSize(resources.getDimension(smallResId))
+    ampm_tv.toBigSize(resources.getDimension(smallResId))
+    s_tv.toBigSize(resources.getDimension(smallResId))
+}
+fun Activity.smallAllSize(largeResId:Int,smallResId:Int){
+    h_tv.toSmallSize(    resources.getDimension(largeResId))
+    m_tv.toSmallSize(    resources.getDimension(largeResId))
+    colon_tv.toSmallSize(resources.getDimension(largeResId))
+    ymd_tv.toSmallSize(  resources.getDimension(smallResId))
+    week_tv.toSmallSize( resources.getDimension(smallResId))
+    ampm_tv.toSmallSize( resources.getDimension(smallResId))
+    s_tv.toSmallSize(    resources.getDimension(smallResId))
+}
+fun Activity.autoAllSize(largeResId:Int,smallResId:Int){
+    h_tv.toAutoSize(    resources.getDimension(largeResId))
+    m_tv.toAutoSize(    resources.getDimension(largeResId))
+    colon_tv.toAutoSize(resources.getDimension(largeResId))
+    ymd_tv.toAutoSize(  resources.getDimension(smallResId))
+    week_tv.toAutoSize( resources.getDimension(smallResId))
+    ampm_tv.toAutoSize( resources.getDimension(smallResId))
+    s_tv.toAutoSize(    resources.getDimension(smallResId))
 }
 
 fun Activity.showWelcome(data: Data){
@@ -259,7 +281,7 @@ fun Activity.setActivityFullScreen(isFullScreeen:Boolean){
     }
     if (Build.VERSION.SDK_INT < 19){
         val view = this.window.decorView
-        view.systemUiVisibility = View.GONE
+        view.systemUiVisibility = SYSTEM_UI_FLAG_FULLSCREEN
     }else if (Build.VERSION.SDK_INT >= 19){
         val view = this.window.decorView
         val uiOption = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION

@@ -1,5 +1,6 @@
 package com.frank.myclock.view;
 
+import android.animation.AnimatorSet;
 import android.animation.ArgbEvaluator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
@@ -19,6 +20,10 @@ import com.frank.myclock.R;
 public class MyTextView extends TextView {
     private ValueAnimator colorAnim;
     private int color = Color.WHITE;
+    private AnimatorSet animSet;
+    private ObjectAnimator toWhite;
+    private ObjectAnimator toGray;
+
     public MyTextView(Context context, AttributeSet attrs) {
         super(context, attrs);
         int RED = 0xffFF8080;int BLUE = 0xff8080FF;int CYAN = 0xff80ffff;int GREEN = 0xff80ff80;
@@ -28,6 +33,11 @@ public class MyTextView extends TextView {
         colorAnim.setDuration(15000);
         colorAnim.setEvaluator(new ArgbEvaluator()); colorAnim.setRepeatCount(ValueAnimator.INFINITE);
         colorAnim.setRepeatMode(ValueAnimator.REVERSE);
+
+        toWhite = ObjectAnimator.ofInt(this,"textColor",Color.argb(255,126,126,126),Color.WHITE);
+        toWhite.setEvaluator(new ArgbEvaluator());
+        toGray = ObjectAnimator.ofInt(this,"textColor",Color.WHITE,Color.argb(255,126,126,126));
+        toGray.setEvaluator(new ArgbEvaluator());
     }
 
     public void toAutoSize(float size){
@@ -41,6 +51,19 @@ public class MyTextView extends TextView {
         setTextSize(TypedValue.COMPLEX_UNIT_PX,size/1.6f);
     }
 
+    public void toW(){
+        animSet = new AnimatorSet();
+        animSet.play(toWhite);
+        animSet.setDuration(300);
+        animSet.start();
+    }
+
+    public void toG(){
+        animSet = new AnimatorSet();
+        animSet.play(toGray);
+        animSet.setDuration(300);
+        animSet.start();
+    }
 
     public void setColor(String color){
         this.color = Color.parseColor(color);

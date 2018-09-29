@@ -29,9 +29,9 @@ class LockActivity: BaseActivity() {
     override fun isKeepScreenOn(): Boolean {
         return false
     }
-    override fun setLayoutRes(): Int {
+    override fun setLayoutRes(): String {
         window.addFlags(WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD or WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED)
-        return R.layout.activity_lcok
+        return data.getLayout()
     }
     override fun setFullScreen(): Boolean {
         return true

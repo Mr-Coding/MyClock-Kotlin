@@ -10,8 +10,8 @@ android {
         applicationId "com.frank.myclock"
         minSdkVersion 14
         targetSdkVersion 28
-        versionCode 32
-        versionName "0.21.0"
+        versionCode 37
+        versionName "0.23.3"
     }
     buildTypes {
         release {

@@ -4,13 +4,20 @@ import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.Gravity
 import android.view.WindowManager
 import com.frank.myclock.Data
 import com.frank.myclock.extend.setActivityFullScreen
 import com.frank.myclock.extend.timeRunning
 import android.widget.Toast
+import androidx.drawerlayout.widget.DrawerLayout
+import com.frank.myclock.R
 import com.frank.myclock.extend.showWelcome
 import com.frank.myclock.util.APKVersionCodeUtils
+import com.frank.myclock.view.ChangeLayoutSwitch
+import kotlinx.android.synthetic.main.activity_drawer.*
+import kotlinx.android.synthetic.main.activity_drawer2.*
+import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.panel_settings.*
 
 abstract class BaseActivity : Activity(){
@@ -23,7 +30,41 @@ abstract class BaseActivity : Activity(){
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
         }
 
-        setContentView(setLayoutRes())
+        if (setLayoutRes() == ChangeLayoutSwitch.STATE.A.toString()) {
+            setContentView(R.layout.activity_drawer)
+            if (canOpenMenu()){
+                draw_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+
+                if(canOpenMenu()){
+                    draw_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                    main_layout.setOnLongClickListener {
+                        draw_layout.openDrawer(Gravity.LEFT)
+                        true
+                    }
+                    stylesetting_btn.setOnClickListener{
+                        draw_layout.closeDrawer(Gravity.LEFT)
+                        draw_layout.openDrawer(Gravity.RIGHT)
+                    }
+                }
+            }
+        }else if (setLayoutRes() == ChangeLayoutSwitch.STATE.B.toString()){
+            setContentView(R.layout.activity_drawer2)
+
+            if (canOpenMenu()){
+                draw_layout2.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
+                if(canOpenMenu()){
+                    draw_layout2.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
+                    main_layout.setOnLongClickListener {
+                        draw_layout2.openDrawer(Gravity.LEFT)
+                        true
+                    }
+                    stylesetting_btn.setOnClickListener{
+                        draw_layout2.closeDrawer(Gravity.LEFT)
+                        draw_layout2.openDrawer(Gravity.RIGHT)
+                    }
+                }
+            }
+        }
 
         init()
 
@@ -58,7 +99,7 @@ abstract class BaseActivity : Activity(){
 
     protected abstract fun isKeepScreenOn():Boolean
 
-    protected abstract fun setLayoutRes():Int
+    protected abstract fun setLayoutRes():String
 
     protected abstract fun setFullScreen():Boolean
 

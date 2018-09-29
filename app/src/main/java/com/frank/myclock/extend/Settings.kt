@@ -13,7 +13,6 @@ import android.content.pm.PackageManager
 import android.hardware.SensorManager
 import android.os.Build
 import android.util.Log
-import android.view.WindowManager
 import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -26,6 +25,7 @@ import com.frank.myclock.util.Pay
 import com.frank.myclock.view.MyDialog
 import kotlinx.android.synthetic.main.panel_style_settings.*
 import com.divyanshu.colorseekbar.*
+import com.frank.myclock.view.ChangeLayoutSwitch
 import com.frank.myclock.view.TextSizeSwitch
 
 
@@ -300,67 +300,42 @@ fun Activity.setTextColor(data: Data){
         }
     })
 }
-
+// 字体大小
 fun Activity.setTextSize(data: Data){
-    fun bigSize(){
-        h_tv.toBigSize(resources.getDimension(R.dimen.large))
-        m_tv.toBigSize(resources.getDimension(R.dimen.large))
-        colon_tv.toBigSize(resources.getDimension(R.dimen.colon))
-        ymd_tv.toBigSize(resources.getDimension(R.dimen.small))
-        week_tv.toBigSize(resources.getDimension(R.dimen.small))
-        ampm_tv.toBigSize(resources.getDimension(R.dimen.small))
-        s_tv.toBigSize(resources.getDimension(R.dimen.small))
-    }
-    fun smallSize(){
-        h_tv.toSmallSize(resources.getDimension(R.dimen.large))
-        m_tv.toSmallSize(resources.getDimension(R.dimen.large))
-        colon_tv.toSmallSize(resources.getDimension(R.dimen.colon))
-        ymd_tv.toSmallSize(resources.getDimension(R.dimen.small))
-        week_tv.toSmallSize(resources.getDimension(R.dimen.small))
-        ampm_tv.toSmallSize(resources.getDimension(R.dimen.small))
-        s_tv.toSmallSize(resources.getDimension(R.dimen.small))
-    }
-    fun autoSize(){
-        h_tv.toAutoSize(resources.getDimension(R.dimen.large))
-        m_tv.toAutoSize(resources.getDimension(R.dimen.large))
-        colon_tv.toAutoSize(resources.getDimension(R.dimen.colon))
-        ymd_tv.toAutoSize(resources.getDimension(R.dimen.small))
-        week_tv.toAutoSize(resources.getDimension(R.dimen.small))
-        ampm_tv.toAutoSize(resources.getDimension(R.dimen.small))
-        s_tv.toAutoSize(resources.getDimension(R.dimen.small))
-    }
+    changeLayout(data)
 
     when(data.getTextSize()){
         TextSizeSwitch.STATE.AUTO.toString() -> {
             textsize_switch.setChosen(TextSizeSwitch.BTN.AUTO_BTN)
-            autoSize()
         }
         TextSizeSwitch.STATE.BIG.toString() -> {
             textsize_switch.setChosen(TextSizeSwitch.BTN.BIG_BTN)
-            bigSize()
         }
         TextSizeSwitch.STATE.SMALL.toString() -> {
             textsize_switch.setChosen(TextSizeSwitch.BTN.SMALL_BTN)
-            smallSize()
+        }
+    }
+
+    when(data.getLayout()){
+        ChangeLayoutSwitch.STATE.A.toString() -> {
+            changelayout_switch.setChosen(ChangeLayoutSwitch.BTN.A_BTN)
+        }
+        ChangeLayoutSwitch.STATE.B.toString() -> {
+            changelayout_switch.setChosen(ChangeLayoutSwitch.BTN.B_BTN)
         }
     }
 
     textsize_switch.onChosen{
         data.setTextSize(it)
-        when(it){
-            TextSizeSwitch.STATE.AUTO.toString() -> {
-                autoSize()
-            }
-            TextSizeSwitch.STATE.BIG.toString() -> {
-                bigSize()
-            }
-            TextSizeSwitch.STATE.SMALL.toString() -> {
-                smallSize()
-            }
-        }
+        changeLayout(data)
+    }
+    changelayout_switch.onChosen {
+        data.setLayout(it)
+        recreate()
     }
 }
 
+// 亮度
 fun Activity.setBrightness(data: Data){
     val activity = this
 
@@ -368,14 +343,17 @@ fun Activity.setBrightness(data: Data){
         MySensor(getSystemService(SENSOR_SERVICE) as SensorManager?).setOnLightChanged(object : MySensor.OnLightChanged {
             override fun onHeight() {
                 if (data.isBrightness()) {
+//                    h_tv.toW(); m_tv.toW(); s_tv.toW(); ymd_tv.toW(); colon_tv.toW(); ampm_tv.toW(); week_tv.toW()
                     changeAppBrightness(activity, -1)
                 }
             }
 
             override fun onLow() {
                 if (data.isBrightness()) {
+//                    h_tv.toG(); m_tv.toG(); s_tv.toG(); ymd_tv.toG(); colon_tv.toG(); ampm_tv.toG(); week_tv.toG()
                     changeAppBrightness(activity, 5);
                 }else{
+//                    h_tv.toW(); m_tv.toW(); s_tv.toW(); ymd_tv.toW(); colon_tv.toW(); ampm_tv.toW(); week_tv.toW()
                     changeAppBrightness(activity, -1);
                 }
             }

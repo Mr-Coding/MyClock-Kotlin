@@ -3,6 +3,7 @@ package com.frank.myclock
 import android.content.Context
 import android.content.SharedPreferences
 import android.graphics.Color
+import com.frank.myclock.view.ChangeLayoutSwitch
 import com.frank.myclock.view.MySwitch
 import com.frank.myclock.view.TextSizeSwitch
 
@@ -114,6 +115,13 @@ class Data(context: Context){
     }
     fun setImg(value:String){
         editor.putString("Background",value).commit()
+    }
+    // 设置布局
+    fun getLayout():String{
+        return data.getString("Layout",ChangeLayoutSwitch.STATE.A.toString())
+    }
+    fun setLayout(value:String){
+        editor.putString("Layout",value).commit()
     }
     // 设置屏幕方向
     fun getOrientation():String{

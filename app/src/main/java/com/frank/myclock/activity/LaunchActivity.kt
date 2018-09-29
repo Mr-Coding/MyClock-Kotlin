@@ -23,21 +23,6 @@ class LaunchActivity: BaseActivity() {
     private val data: Data by lazy { Data(this) }
 
     override fun init() {
-        draw_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED)
-
-        if(canOpenMenu()){
-            draw_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED)
-            main_layout.setOnLongClickListener {
-                draw_layout.openDrawer(Gravity.LEFT)
-                true
-            }
-
-            stylesetting_btn.setOnClickListener{
-                draw_layout.closeDrawer(Gravity.LEFT)
-                draw_layout.openDrawer(Gravity.RIGHT)
-            }
-        }
-
         setListener(data)
     }
 
@@ -68,8 +53,8 @@ class LaunchActivity: BaseActivity() {
     override fun isKeepScreenOn(): Boolean {
         return data.isKeepScreenOn()
     }
-    override fun setLayoutRes(): Int {
-        return R.layout.activity_drawer
+    override fun setLayoutRes(): String {
+        return data.getLayout()
     }
     override fun setFullScreen(): Boolean {
         return true

@@ -104,6 +104,29 @@
                     android:layout_marginRight="10dp" />
             </LinearLayout>
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginLeft="8dp"
+                    android:layout_marginRight="4dp"
+                    android:text="布局"
+                    android:textColor="#fff"
+                    android:textSize="20sp"/>
+                <com.frank.myclock.view.ChangeLayoutSwitch
+                    android:id="@+id/changelayout_switch"
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginRight="10dp" />
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 
