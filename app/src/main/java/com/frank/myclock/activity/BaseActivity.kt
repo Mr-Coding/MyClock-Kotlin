@@ -2,6 +2,7 @@ package com.frank.myclock.activity
 
 import android.app.Activity
 import android.content.Intent
+import android.content.IntentFilter
 import android.content.pm.PackageManager
 import android.os.Bundle
 import android.view.Gravity
@@ -13,6 +14,7 @@ import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
 import com.frank.myclock.R
 import com.frank.myclock.extend.showWelcome
+import com.frank.myclock.service.BatteryService
 import com.frank.myclock.util.APKVersionCodeUtils
 import com.frank.myclock.view.ChangeLayoutSwitch
 import kotlinx.android.synthetic.main.activity_drawer.*
@@ -22,9 +24,15 @@ import kotlinx.android.synthetic.main.panel_settings.*
 
 abstract class BaseActivity : Activity(){
     private val data:Data by lazy { Data(this) }
+    private var batteryService:BatteryService? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        batteryService = BatteryService{
+            battery_progress.progress = it
+        }
+        registerReceiver(batteryService, IntentFilter(Intent.ACTION_BATTERY_CHANGED))
 
         if (isKeepScreenOn()){
             window.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
@@ -70,6 +78,8 @@ abstract class BaseActivity : Activity(){
 
         showWelcome(data)
 
+
+
         version_name.text = "版本  V "+APKVersionCodeUtils.getVersionName(this)
     }
 
@@ -95,6 +105,11 @@ abstract class BaseActivity : Activity(){
             intent.addCategory(Intent.CATEGORY_OPENABLE)
             startActivityForResult(intent, 1)
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        unregisterReceiver(batteryService)
     }
 
     protected abstract fun isKeepScreenOn():Boolean

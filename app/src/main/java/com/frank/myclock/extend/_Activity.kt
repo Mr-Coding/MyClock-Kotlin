@@ -14,7 +14,6 @@ import android.content.Context
 import android.graphics.Color
 import android.hardware.SensorManager
 import android.view.View.SYSTEM_UI_FLAG_FULLSCREEN
-import android.view.View.SYSTEM_UI_FLAG_LOW_PROFILE
 import android.view.WindowManager
 import com.frank.myclock.R
 import com.frank.myclock.activity.LaunchActivity
@@ -160,6 +159,7 @@ fun Activity.setListener(data: Data){
     setTextSize(data)
     setNavigationBarColor()
     setKeepScreenOn(data)
+    setBatteryProgress(data)
 }
 
 fun Activity.setTextSize2(data: Data){

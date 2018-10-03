@@ -13,6 +13,7 @@ import android.content.pm.PackageManager
 import android.hardware.SensorManager
 import android.os.Build
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -374,4 +375,24 @@ fun Activity.setKeepScreenOn(data: Data){
         data.setKeepScreenO(isChecked)
         recreate()
     }
+}
+
+fun Activity.setBatteryProgress(data: Data){
+    if (data.showBatteryProgress()){
+        battery_progress.visibility = View.VISIBLE
+        showbattery_progress_chk.isChecked = true
+    }else{
+        battery_progress.visibility = View.GONE
+        showbattery_progress_chk.isChecked = false
+    }
+
+    showbattery_progress_chk.setOnCheckedChangeListener { view, isChecked ->
+        data.setShowBatteryProgress(isChecked)
+        if (isChecked){
+            battery_progress.visibility = View.VISIBLE
+        }else{
+            battery_progress.visibility = View.GONE
+        }
+    }
+
 }

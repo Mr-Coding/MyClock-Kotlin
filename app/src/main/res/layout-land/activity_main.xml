@@ -14,6 +14,14 @@
              android:alpha="0.8"
              android:scaleType="centerCrop"/>
 
+         <ProgressBar android:id="@+id/battery_progress"
+             android:layout_width="match_parent"
+             android:layout_height="3dp"
+             android:max="100"
+             android:progress="100"
+             style="?android:attr/progressBarStyleHorizontal"
+             android:progressDrawable="@drawable/progressbar_style"/>
+
             <com.frank.myclock.view.MoveLayout
                 android:id="@+id/move_layout"
                 android:layout_centerInParent="true"

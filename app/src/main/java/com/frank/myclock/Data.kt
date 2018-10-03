@@ -11,6 +11,14 @@ class Data(context: Context){
     private val data:SharedPreferences by lazy { context.getSharedPreferences("settings",Context.MODE_PRIVATE) }
     private val editor = data.edit()
 
+    //是否显示电量
+    fun showBatteryProgress():Boolean{
+        return data.getBoolean("PowerProgress",true)
+    }
+    fun setShowBatteryProgress(value:Boolean){
+        editor.putBoolean("PowerProgress",value).commit()
+    }
+
     //是否让文字移动
     fun isStartMove():Boolean{
         return data.getBoolean("StartMove",true)

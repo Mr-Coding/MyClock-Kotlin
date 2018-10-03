@@ -196,6 +196,26 @@
                     android:layout_marginRight="6dp"/>
             </RelativeLayout>
 
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="40dp">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginLeft="8dp"
+                    android:text="显示电量"
+                    android:textColor="#fff"
+                    android:textSize="20sp"/>
+                <com.suke.widget.SwitchButton
+                    android:id="@+id/showbattery_progress_chk"
+                    android:layout_width="55dp"
+                    android:layout_height="30dp"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="6dp"/>
+            </RelativeLayout>
+
             <RelativeLayout android:id="@+id/stylesetting_btn"
                 android:layout_width="match_parent"
                 android:layout_height="40dp">
