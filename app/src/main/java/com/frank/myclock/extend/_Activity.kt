@@ -45,15 +45,20 @@ fun Activity.timeRunning(){
     time.setTimeListener(
             on1s = {
                 runOnUiThread { kotlin.run {
-                    h_tv.text = if (!data.is12HourClock()){
+                    h_tv.text    = if (!data.is12HourClock()){
                         Time.hour()
                     }else{
                         Time.hourOfDay()
                     }
-                    m_tv.text = Time.minute()
+                    m_tv.text    = Time.minute()
                     ampm_tv.text = Time.halfDay()
                     week_tv.text = Time.week()
-                    s_tv.text = Time.second()
+                    s_tv.text    = Time.second()
+                    ymd_tv.text  = if (!data.isShowLunar()){
+                        Time.YMD()
+                    }else{
+                        Time.YMDAsLunar()
+                    }
                     if (data.isFlashingColon()) {
                         if (isHide) {
                             colon_tv.alpha = 0f
