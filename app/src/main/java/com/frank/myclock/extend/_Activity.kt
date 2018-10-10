@@ -69,7 +69,7 @@ fun Activity.timeRunning(){
                     }
                 } }
             },
-            on30s = {
+            onMoveTime = {
                 runOnUiThread { kotlin.run {
                         if (data.isStartMove()) {
                             move_layout.startMove(data.isStartMove())

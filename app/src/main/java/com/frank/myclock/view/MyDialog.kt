@@ -6,7 +6,9 @@ import android.view.View
 import androidx.appcompat.app.AlertDialog
 import com.frank.myclock.R
 import android.app.Activity
+import android.util.Log
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import com.frank.myclock.extend.setActivityFullScreen
 
@@ -44,6 +46,22 @@ class MyDialog{
 
         fun showWXPay(context: Activity) {
             dialogBuilder(context, R.layout.dialog_wxpay, true)
+            dialog?.setOnDismissListener {
+                context.setActivityFullScreen(true)
+            }
+        }
+
+        fun showTimePicker(context: Activity,callback:((number:String)->Unit)? = null) {
+            val parent = dialogBuilder(context, R.layout.dialog_numberpicker, true)
+            val inputTime = parent.findViewById<EditText>(R.id.dialog_input_time)
+            parent.findViewById<Button>(R.id.dialog_ok_btn).setOnClickListener {
+                var number = inputTime.text.toString()
+                if (number == "" || number == "0"){
+                    number = "1"
+                }
+                callback?.invoke(number)
+                dialog?.dismiss()
+            }
             dialog?.setOnDismissListener {
                 context.setActivityFullScreen(true)
             }

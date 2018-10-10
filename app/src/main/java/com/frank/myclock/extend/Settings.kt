@@ -2,6 +2,8 @@ package com.frank.myclock.extend
 
 import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
+import android.app.DatePickerDialog
+import android.app.TimePickerDialog
 import android.content.Context.SENSOR_SERVICE
 import com.frank.myclock.Data
 import com.frank.myclock.time.Time
@@ -15,6 +17,9 @@ import android.os.Build
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
+import android.widget.NumberPicker
+import android.widget.TimePicker
+import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.bumptech.glide.Glide
@@ -128,6 +133,17 @@ fun Activity.setYMD(data: Data) {
             Time.YMD()
         }else{
             Time.YMDAsLunar()
+        }
+    }
+
+    Data.moveTime = data.getMoveTime()
+    panel_btn_time.text = Data.moveTime+"s"
+    panel_btn_time.setOnClickListener { _ ->
+        MyDialog.showTimePicker(this){
+            Data.moveTime = it
+            Data.count = 0
+            panel_btn_time.text = it+"s"
+            data.setMoveTime(it)
         }
     }
 }

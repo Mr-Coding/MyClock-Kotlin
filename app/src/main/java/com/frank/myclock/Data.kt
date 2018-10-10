@@ -8,8 +8,21 @@ import com.frank.myclock.view.MySwitch
 import com.frank.myclock.view.TextSizeSwitch
 
 class Data(context: Context){
+    companion object {
+        var moveTime:String = "30"
+        var count:Int = 0
+    }
+
     private val data:SharedPreferences by lazy { context.getSharedPreferences("settings",Context.MODE_PRIVATE) }
     private val editor = data.edit()
+
+    // 设置移动时间间隔
+    fun getMoveTime():String{
+        return data.getString("MoveTime","30")
+    }
+    fun setMoveTime(value:String){
+        editor.putString("MoveTime",value).commit()
+    }
 
     //是否显示电量
     fun showBatteryProgress():Boolean{
