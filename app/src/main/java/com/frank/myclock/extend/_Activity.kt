@@ -284,15 +284,17 @@ fun Activity.setActivityFullScreen(isFullScreeen:Boolean){
     if (!isFullScreeen) {
         return
     }
-    if (Build.VERSION.SDK_INT < 19){
-        val view = this.window.decorView
-        view.systemUiVisibility = SYSTEM_UI_FLAG_FULLSCREEN
-    }else if (Build.VERSION.SDK_INT >= 19){
-        val view = this.window.decorView
-        val uiOption = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_FULLSCREEN);
-        view.systemUiVisibility = uiOption
-    }
+    window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+            WindowManager.LayoutParams.FLAG_FULLSCREEN)
+//    if (Build.VERSION.SDK_INT < 19){
+//        val view = this.window.decorView
+//        view.systemUiVisibility = SYSTEM_UI_FLAG_FULLSCREEN
+//    }else if (Build.VERSION.SDK_INT >= 19){
+//        val view = this.window.decorView
+//        val uiOption = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_FULLSCREEN);
+//        view.systemUiVisibility = uiOption
+//    }
 }
 
 /**

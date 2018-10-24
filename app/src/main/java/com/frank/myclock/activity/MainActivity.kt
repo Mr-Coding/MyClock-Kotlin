@@ -11,6 +11,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import com.bumptech.glide.Glide
 import com.frank.myclock.Data
 import com.frank.myclock.R
+import com.frank.myclock.extend.setActivityFullScreen
 import com.frank.myclock.extend.setListener
 import com.frank.myclock.util.UriToFile
 import kotlinx.android.synthetic.main.activity_drawer.*
@@ -53,6 +54,7 @@ class MainActivity : BaseActivity() {
         return true
     }
     override fun setLayoutRes(): String {
+        setActivityFullScreen(true)
         return data.getLayout()
     }
     override fun canOpenMenu(): Boolean {

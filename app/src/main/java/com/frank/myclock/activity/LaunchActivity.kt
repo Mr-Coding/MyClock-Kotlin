@@ -16,6 +16,7 @@ import android.view.KeyEvent
 import android.view.KeyEvent.KEYCODE_MENU
 import android.view.WindowManager
 import com.bumptech.glide.Glide
+import com.frank.myclock.extend.setActivityFullScreen
 import com.frank.myclock.util.UriToFile
 
 
@@ -54,6 +55,7 @@ class LaunchActivity: BaseActivity() {
         return data.isKeepScreenOn()
     }
     override fun setLayoutRes(): String {
+        setActivityFullScreen(true)
         return data.getLayout()
     }
     override fun setFullScreen(): Boolean {
