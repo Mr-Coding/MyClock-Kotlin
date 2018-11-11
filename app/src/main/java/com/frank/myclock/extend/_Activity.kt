@@ -286,14 +286,32 @@ fun Activity.setActivityFullScreen(isFullScreeen:Boolean){
     }
 //    window.setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
 //            WindowManager.LayoutParams.FLAG_FULLSCREEN)
-    if (Build.VERSION.SDK_INT < 19){
-        val view = this.window.decorView
-        view.systemUiVisibility = SYSTEM_UI_FLAG_FULLSCREEN
-    }else if (Build.VERSION.SDK_INT >= 19){
-        val view = this.window.decorView
-        val uiOption = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
-                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_FULLSCREEN);
-        view.systemUiVisibility = uiOption
+
+//    if (Build.VERSION.SDK_INT < 19){
+//        val view = this.window.decorView
+//        view.systemUiVisibility = SYSTEM_UI_FLAG_FULLSCREEN
+//    }else if (Build.VERSION.SDK_INT >= 19){
+//        val view = this.window.decorView
+//        val uiOption = (View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+//                or View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY or View.SYSTEM_UI_FLAG_FULLSCREEN);
+//        view.systemUiVisibility = uiOption
+//    }
+    var uiFlags = (View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+            or View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+            or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+            or View.SYSTEM_UI_FLAG_HIDE_NAVIGATION // hide nav bar
+            or View.SYSTEM_UI_FLAG_FULLSCREEN) // hide status bar
+
+    if (android.os.Build.VERSION.SDK_INT >= 19) {
+        uiFlags = uiFlags or View.SYSTEM_UI_FLAG_IMMERSIVE//0x00001000; // SYSTEM_UI_FLAG_IMMERSIVE_STICKY: hide
+    } else {
+        uiFlags = uiFlags or View.SYSTEM_UI_FLAG_LOW_PROFILE
+    }
+
+    try {
+        window.decorView.systemUiVisibility = uiFlags
+    } catch (e: Exception) {
+        // TODO: handle exception
     }
 }
 
