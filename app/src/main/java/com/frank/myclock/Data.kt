@@ -26,7 +26,7 @@ class Data(context: Context){
 
     //是否显示电量
     fun showBatteryProgress():Boolean{
-        return data.getBoolean("PowerProgress",true)
+        return data.getBoolean("PowerProgress",false)
     }
     fun setShowBatteryProgress(value:Boolean){
         editor.putBoolean("PowerProgress",value).commit()

@@ -45,6 +45,7 @@ fun Activity.timeRunning(){
     time.setTimeListener(
             on1s = {
                 runOnUiThread { kotlin.run {
+                    setActivityFullScreen(true)
                     h_tv.text    = if (!data.is12HourClock()){
                         Time.hour()
                     }else{
