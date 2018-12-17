@@ -54,6 +54,15 @@
 (´▽`ʃ♡ƪ)"
             android:textColor="#333"
             android:textStyle="bold"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:text="注意：担心烧屏的用户，设置里有防烧屏的相关选项！"
+            android:textColor="#333"
+            android:textStyle="bold"/>
+
     </LinearLayout>
 
     <TextView android:id="@+id/dialog_ok_btn"
