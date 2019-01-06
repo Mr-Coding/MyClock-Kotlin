@@ -4,6 +4,7 @@ import android.Manifest.permission.READ_EXTERNAL_STORAGE
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
+import android.app.WallpaperManager
 import android.content.Context.SENSOR_SERVICE
 import com.frank.myclock.Data
 import com.frank.myclock.time.Time
@@ -12,6 +13,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.panel_settings.*
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.graphics.drawable.BitmapDrawable
 import android.hardware.SensorManager
 import android.os.Build
 import android.util.Log
@@ -220,17 +222,62 @@ fun Activity.setLauncher(data: Data){
 }
 
 fun Activity.setBackgroundImg(data: Data){
+
+    fun setDesktopwallpaper(){
+        val wallpaperManager = WallpaperManager.getInstance(this)
+        val bitmapDrawable = wallpaperManager.drawable as BitmapDrawable
+        val bitmap = bitmapDrawable.bitmap
+        Glide.with(this).load(bitmap).into(findViewById(R.id.bg))
+    }
+
     Glide.with(this).load(data.getImg()).into(findViewById(R.id.bg))
     Glide.with(this).load(data.getImg()).into(findViewById(R.id.showbg_iv))
+
+    if(data.getIsUseDesktopwallpaper()) {
+        setDesktopwallpaper()
+    }
+
+    usedesktopwallpaper_btn.isChecked = data.getIsUseDesktopwallpaper()
+    usedesktopwallpaper_btn.setOnCheckedChangeListener { view, isChecked ->
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            if (ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                MyDialog.showPermission(this,{
+                    ActivityCompat.requestPermissions(this, Array<String>(1) { READ_EXTERNAL_STORAGE }, 2)
+                },{})
+            }else{
+                data.setIsUseDesktopwallpaper(isChecked)
+                if (isChecked) {
+                    data.setImg("")
+                    Glide.with(this).clear(findViewById<ImageView>(R.id.bg))
+                    Glide.with(this).clear(findViewById<ImageView>(R.id.showbg_iv))
+                    setDesktopwallpaper()
+                }else{
+                    Glide.with(this).clear(findViewById<ImageView>(R.id.bg))
+                }
+            }
+        }else {
+            data.setIsUseDesktopwallpaper(isChecked)
+            if (isChecked) {
+                data.setImg("")
+                Glide.with(this).clear(findViewById<ImageView>(R.id.bg))
+                Glide.with(this).clear(findViewById<ImageView>(R.id.showbg_iv))
+                setDesktopwallpaper()
+            }else{
+                Glide.with(this).clear(findViewById<ImageView>(R.id.bg))
+            }
+        }
+
+    }
+
 
     addbg_btn.setOnClickListener { it ->
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
             if (ContextCompat.checkSelfPermission(applicationContext, android.Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                MyDialog.showPermission(this) {
+                MyDialog.showPermission(this,{
                     ActivityCompat.requestPermissions(
                             this, Array<String>(1) { READ_EXTERNAL_STORAGE }, 1
                     )
-                }
+                },{})
             } else {
                 val intent = Intent(Intent.ACTION_GET_CONTENT)
                 intent.type = "image/*"
@@ -246,6 +293,7 @@ fun Activity.setBackgroundImg(data: Data){
     }
 
     clearbg_btn.setOnClickListener{
+        usedesktopwallpaper_btn.isChecked = false
         data.setImg("")
         Glide.with(this).clear(findViewById<ImageView>(R.id.bg))
         Glide.with(this).clear(findViewById<ImageView>(R.id.showbg_iv))

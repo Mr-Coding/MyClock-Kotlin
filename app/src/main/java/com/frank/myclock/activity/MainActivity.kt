@@ -17,6 +17,7 @@ import com.frank.myclock.util.UriToFile
 import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.panel_settings.*
+import kotlinx.android.synthetic.main.panel_style_settings.*
 
 class MainActivity : BaseActivity() {
     private val data: Data by lazy { Data(this) }
@@ -29,6 +30,7 @@ class MainActivity : BaseActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode == Activity.RESULT_OK){
             if (requestCode == 1){
+                usedesktopwallpaper_btn.isClickable = false
                 Glide.with(this).load(data?.data).into(findViewById(R.id.bg))
                 Glide.with(this).load(data?.data).into(findViewById(R.id.showbg_iv))
 

@@ -137,6 +137,15 @@ class Data(context: Context){
     fun setImg(value:String){
         editor.putString("Background",value).commit()
     }
+
+    // 与桌面壁纸同步
+    fun getIsUseDesktopwallpaper():Boolean{
+        return data.getBoolean("IsUseDesktopwallpaper",false)
+    }
+    fun setIsUseDesktopwallpaper(value:Boolean){
+        editor.putBoolean("IsUseDesktopwallpaper",value).commit()
+    }
+
     // 设置布局
     fun getLayout():String{
         return data.getString("Layout",ChangeLayoutSwitch.STATE.A.toString())

@@ -35,7 +35,8 @@ class MyDialog{
         }
 
 
-        fun showPermission(context: Activity,onOKListener:() -> Unit) {
+        fun showPermission(context: Activity,onOKListener:() -> Unit,
+                           onCancerListener:() -> Unit) {
             val parent = dialogBuilder(context, R.layout.dialog_permission, true)
             parent.findViewById<TextView>(R.id.dialog_ok_btn).setOnClickListener {
                 dialog?.dismiss()

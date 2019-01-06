@@ -1,9 +1,11 @@
 package com.frank.myclock.activity
 
 import android.app.Activity
+import android.app.WallpaperManager
 import android.content.Intent
 import android.content.IntentFilter
 import android.content.pm.PackageManager
+import android.graphics.drawable.BitmapDrawable
 import android.os.Bundle
 import android.view.Gravity
 import android.view.WindowManager
@@ -12,7 +14,9 @@ import com.frank.myclock.extend.setActivityFullScreen
 import com.frank.myclock.extend.timeRunning
 import android.widget.Toast
 import androidx.drawerlayout.widget.DrawerLayout
+import com.bumptech.glide.Glide
 import com.frank.myclock.R
+import com.frank.myclock.extend.setBackgroundImg
 import com.frank.myclock.extend.showWelcome
 import com.frank.myclock.service.BatteryService
 import com.frank.myclock.util.APKVersionCodeUtils
@@ -21,6 +25,7 @@ import kotlinx.android.synthetic.main.activity_drawer.*
 import kotlinx.android.synthetic.main.activity_drawer2.*
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.panel_settings.*
+import kotlinx.android.synthetic.main.panel_style_settings.*
 
 abstract class BaseActivity : Activity(){
     private val data:Data by lazy { Data(this) }
@@ -101,10 +106,22 @@ abstract class BaseActivity : Activity(){
         if (grantResults[0] != PackageManager.PERMISSION_GRANTED) {
             Toast.makeText(this, "授权失败！", Toast.LENGTH_LONG).show()
         } else {
-            val intent = Intent(Intent.ACTION_GET_CONTENT)
-            intent.type = "image/*"
-            intent.addCategory(Intent.CATEGORY_OPENABLE)
-            startActivityForResult(intent, 1)
+            when(requestCode){
+                1->{
+                    val intent = Intent(Intent.ACTION_GET_CONTENT)
+                    intent.type = "image/*"
+                    intent.addCategory(Intent.CATEGORY_OPENABLE)
+                    startActivityForResult(intent, 1)
+                }
+                2->{
+                    usedesktopwallpaper_btn.isChecked = true
+                    this.data.setIsUseDesktopwallpaper(true)
+                    val wallpaperManager = WallpaperManager.getInstance(this)
+                    val bitmapDrawable = wallpaperManager.drawable as BitmapDrawable
+                    val bitmap = bitmapDrawable.bitmap
+                    Glide.with(this).load(bitmap).into(findViewById(R.id.bg))
+                }
+            }
         }
     }
 
