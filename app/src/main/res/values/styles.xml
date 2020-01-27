@@ -1,5 +1,11 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar"/>
+    <style name="AppTheme" parent="@style/Theme.AppCompat.Light.NoActionBar">
+        
+        <!--<item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="p">-->
+            <!--shortEdges-->
+        <!--</item>-->
+        
+    </style>
 
     <style name="TextViewLarge">
         <item name="android:textStyle">bold</item>
