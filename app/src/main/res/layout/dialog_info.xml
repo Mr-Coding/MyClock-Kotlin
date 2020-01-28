@@ -18,6 +18,15 @@
             android:textColor="#4d5f9f"
             android:textStyle="bold"/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:text="不信谣，不传谣，戴口罩，讲卫生，武汉加油！中国加油！"
+            android:textColor="#C62828"
+            android:textStyle="bold"
+            android:lineSpacingExtra="12dp"/>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -34,13 +43,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=" 白炽的星光 "
-                android:textSize="20sp"
                 android:textColor="#3c99dc"
                 android:textStyle="bold"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="设计的图标！"
+                android:text="设计的图标和首屏！"
                 android:textColor="#333"
                 android:textStyle="bold"/>
 
@@ -60,6 +68,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:text="注意：担心烧屏的用户，设置里有防烧屏的相关选项！"
+            android:lineSpacingExtra="12dp"
             android:textColor="#333"
             android:textStyle="bold"/>
 

@@ -466,12 +466,14 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="15dp"
                 android:layout_centerVertical="true"
                 android:layout_marginLeft="10dp"
                 android:text="邮箱号  frank.code@outlook.com"
                 android:textColor="#fff"
                 android:textSize="15sp"/>
             <TextView
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
@@ -479,6 +481,7 @@
                 android:textColor="#fff"
                 android:textSize="15sp"/>
             <LinearLayout
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="8dp"
