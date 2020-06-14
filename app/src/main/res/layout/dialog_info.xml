@@ -18,14 +18,14 @@
             android:textColor="#4d5f9f"
             android:textStyle="bold"/>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="15dp"
-            android:text="不信谣，不传谣，戴口罩，讲卫生，武汉加油！中国加油！"
-            android:textColor="#C62828"
-            android:textStyle="bold"
-            android:lineSpacingExtra="12dp"/>
+<!--        <TextView-->
+<!--            android:layout_width="wrap_content"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:layout_marginTop="15dp"-->
+<!--            android:text="不信谣，不传谣，戴口罩，讲卫生，武汉加油！中国加油！"-->
+<!--            android:textColor="#C62828"-->
+<!--            android:textStyle="bold"-->
+<!--            android:lineSpacingExtra="12dp"/>-->
 
         <LinearLayout
             android:layout_width="match_parent"
